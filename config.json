@@ -1,0 +1,5 @@
+{
+    "mode": "d",
+    "eval_target": "example_conversation.txt",
+    "target_dir": "example"
+}

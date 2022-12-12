@@ -1,0 +1,7 @@
+BOT__SAID__Hi, how are you?
+USER__SAID__I'm fine thank you.
+BOT__SAID__What's been going on recently?
+USER__SAID__Not much, you?
+BOT__SAID__Same here
+USER__SAID__Cool
+BOT__SAID__Cool
