@@ -56,12 +56,12 @@ def main(global_config: Dict[str, Any], *args, **kwargs):
 
     if global_config['mode'] == 'd':
         # perform document level evaluation
-        if 'eval_target' not in global_config:
+        if 'eval_target' not in local_config:
             # Evaluation on a document/conversation trascript must have an 'eval_target' specified
             raise AttributeError("No Evaluation Target Specified!")
 
         # Load utterances from document
-        target_path = os.path.join(module_dir, global_config['eval_target'])
+        target_path = os.path.join(module_dir, local_config['eval_target'])
         eval_target = open(target_path, 'r')
         eval_target = eval_target.read().splitlines()
 
