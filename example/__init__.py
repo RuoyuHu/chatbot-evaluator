@@ -4,6 +4,7 @@ import json
 from typing import Dict, List, Any
 
 from utils.parsing import parse_conversation
+from utils.loader import load_dialog
 from templates.actor import Actor
 
 from example.utterance import ExampleUtterance
@@ -44,6 +45,9 @@ def main(global_config: Dict[str, Any], *args, **kwargs):
     if os.path.isfile(local_config_dir):
         local_config = json.load(open(local_config_dir))
 
+    # Allow local config to know where it is
+    local_config['local_dir'] = global_config['target_dir']
+
     # Initialise actor Enum -> str mappings
     Actor.initialise_mapping(mappings=actor_names)
 
@@ -62,10 +66,13 @@ def main(global_config: Dict[str, Any], *args, **kwargs):
 
         # Load utterances from document
         target_path = os.path.join(module_dir, local_config['eval_target'])
-        eval_target = open(target_path, 'r')
-        eval_target = eval_target.read().splitlines()
+        eval_targets = load_dialog(target=target_path)
+        for (target_path, target_name) in eval_targets:
+            print(f"Evaluating conversation in {repr(target_name)}")
+            eval_target = open(target_path, 'r')
+            eval_target = eval_target.read().splitlines()
 
-        # Parse utterances/conversation into ExampleUtterance objects
-        example_conv = parse_conversation(conversation=eval_target, actors=Actor, wrapper=ExampleUtterance)
-        conv_score = evaluator.score_document(document=example_conv)
-        print(f"Conversation of example conversation is {conv_score}")
+            # Parse utterances/conversation into ExampleUtterance objects
+            example_conv = parse_conversation(conversation=eval_target, actors=Actor, wrapper=ExampleUtterance)
+            conv_score = evaluator.score_document(document=example_conv)
+            print(f"Score of conversation in {target_name} is: {conv_score}")

@@ -20,6 +20,10 @@ Contains an example implementation of the template classes to evaluate sample co
 
 Contains package-agnostic utility functions and variables. i.e. saving and loading conversation.
 
+`plugins/`
+
+Contains plugins/add-ons for the evaluator package. Insutrctions are included for metrics.
+
 ---
 
 ### Quick Start

@@ -5,7 +5,7 @@ from typing import List, Callable
 from example.metrics.dummy import DummyMetric
 from example.utterance import ExampleUtterance
 
-from templates.metrics.template_metric import BaseEvalMetric
+from templates.metrics import BaseEvalMetric
 from templates.evaluator import BaseEvaluator
 from templates.chatbot import BaseChatbot
 from templates.actor import Actor
@@ -39,7 +39,7 @@ class ExampleEvaluator(BaseEvaluator):
         self.config = config
 
     def score_utterance(self, utterance: ExampleUtterance, context: List[ExampleUtterance], **kwargs) -> float:
-        scores = [metric.score_utterance(utterance, context) for metric in self.metrics]
+        scores = [metric.score_utterance(utterance, context, **kwargs) for metric in self.metrics]
         scores = np.array(scores)
 
         weights = self.weighting
@@ -48,7 +48,7 @@ class ExampleEvaluator(BaseEvaluator):
         return weights @ scores
 
     def score_document(self, document: List[ExampleUtterance], **kwargs) -> float:
-        scores = [metric.score_conversation(conversation=document) for metric in self.metrics]
+        scores = [metric.score_conversation(conversation=document, **kwargs) for metric in self.metrics]
         scores = np.array(scores)
 
         weights = self.weighting
@@ -70,7 +70,7 @@ class ExampleEvaluator(BaseEvaluator):
             context.append(bot_response)
 
             # Compute turn-level score
-            turn_score = self.score_utterance(utterance=bot_response, context=context)
+            turn_score = self.score_utterance(utterance=bot_response, context=context, **kwargs)
 
             print(f"Score for this turn is {turn_score}")
 

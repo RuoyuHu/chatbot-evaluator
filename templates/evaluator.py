@@ -1,6 +1,6 @@
 from typing import List, Callable, Union, Dict, Any
 
-from templates.metrics.template_metric import BaseEvalMetric
+from templates.metrics import BaseEvalMetric
 from templates.utterance import BaseUtterance
 from templates.chatbot import BaseChatbot
 
