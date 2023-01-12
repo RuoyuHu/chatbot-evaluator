@@ -32,6 +32,7 @@ class DialogRPTMetric(BaseEvalMetric):
             self.model = self.model.to(DEVICE)
         self.model.eval()
         self.tokenizer = AutoTokenizer.from_pretrained(model_type)
+        self.tokenizer.truncation_side = 'left'
 
         print(f"Finished loading DialogRPTMetric")
 
